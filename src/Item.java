@@ -55,7 +55,7 @@ public abstract class Item {
 		float cost = Float.parseFloat(values[3]);
 		String status = values[4];
 		int articleNumber = Integer.parseInt(values[5]);
-		return new Book(title, pages, publisher, cost, status, articleNumber);
+		return new Book(articleNumber, title, cost, pages, publisher, status);
 	}
 	
 	@Override
