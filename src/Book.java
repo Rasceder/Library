@@ -1,33 +1,8 @@
 
-public class Book {
+public class Book extends Item{
 	
-
-	private String title; // The title of the movie
 	private int pages;
 	private String publisher;
-	private float cost;
-	private String status;
-	private int articleNumber;
-	
-	public float getCost() {
-		return cost;
-	}
-
-	public void setCost(float cost) {
-		this.cost = cost;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public int getArticleNumber() {
-		return articleNumber;
-	}
 
 	public String getPublisher() {
 		return publisher;
@@ -37,30 +12,26 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
 	public int getPages() {
 		return pages;
 	}
 
 	public Book(String title, int pages, String publisher, float cost, String status, int articleNumber) {
-		super();
-		this.title = title;
+		super(title, cost, status, articleNumber);
 		this.pages = pages;
 		this.publisher = publisher;
-		this.articleNumber = articleNumber;
-		this.status = status;
-		this.cost = cost;
 	}
 	
-	public String bookCsvRecord() {
-		return String.format("%s,%d,%s,%.2f,%s,%d", title, pages, publisher, cost, status, articleNumber);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+	@Override
+	public String itemCsvRecord() {
+		super.itemCsvRecord();
+		return String.format("%d,%s,", pages, publisher);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	}
 
-	public static String getCsvHeaderString() {
-		return "article number,title,pages,publisher,cost,status";
+	@Override
+	public String getCsvHeaderString() {
+		super.getCsvHeaderString();
+		return "pages,publisher";
 	}
 
 	public static Book parseBook(String csvRecord) {
@@ -76,7 +47,7 @@ public class Book {
 	
 	@Override
 	public String toString() {
-		return String.format("%s: Title %d, Pages %s: Publisher %.2f: Price %s: Status %d Article Number", title, pages, publisher, cost, status, articleNumber);
+		return String.format("%d: Pages %s: Publisher", pages, publisher);
 	}
 	 
 }
