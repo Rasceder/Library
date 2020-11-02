@@ -76,10 +76,10 @@ public class Book {
 	
 	@Override
 	public String toString() {
-		return String.format("%s: Runtime %dm, Rating %.2f", title, runtime, rating);
+		return String.format("%s: Title %d, Pages %s: Publisher %.2f: Price %s: Status %d Article Number", title, pages, publisher, cost, status, articleNumber);
 	}
 	 
 }
 
 
-}
+
