@@ -1,8 +1,8 @@
 
 public class Book extends Item{
 	
-	private int pages;
-	private String publisher;
+	protected int pages;
+	protected String publisher;
 
 	public String getPublisher() {
 		return publisher;
@@ -22,15 +22,12 @@ public class Book extends Item{
 		this.publisher = publisher;
 	}
 	
-	@Override
-	public String itemCsvRecord() {
-		super.itemCsvRecord();
-		return String.format("%d,%s,", pages, publisher);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+	
+	public String bookCsvRecord() {
+		return String.format("%s,%.2f,%s,%d,%d,%s,", pages, publisher, title, cost, status, articleNumber); 
 	}
-
-	@Override
-	public String getCsvHeaderString() {
-		super.getCsvHeaderString();
+		
+	public static String getBookCsvHeaderString() {
 		return "pages,publisher";
 	}
 
