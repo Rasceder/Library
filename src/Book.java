@@ -16,7 +16,7 @@ public class Book extends Item{
 		return pages;
 	}
 
-	public Book(String title, int pages, String publisher, float cost, String status, int articleNumber) {
+	public Book(int articleNumber, String title, float cost, int pages, String publisher, String status) {
 		super(title, cost, status, articleNumber);
 		this.pages = pages;
 		this.publisher = publisher;
@@ -39,7 +39,7 @@ public class Book extends Item{
 		float cost = Float.parseFloat(values[3]);
 		String status = values[4];
 		int articleNumber = Integer.parseInt(values[5]);
-		return new Book(title, pages, publisher, cost, status, articleNumber);
+		return new Book(articleNumber, title, cost, pages, publisher, status);
 	}
 	
 	@Override
