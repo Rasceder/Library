@@ -38,11 +38,24 @@ public abstract class Item {
 	}
 	
 	public String itemCsvRecord() {
-		return String.format("%s,%.2f,%s,%d", title, cost, status, articleNumber);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		return String.format("%s,%.2f,%s,%d,%d,%s,", title, cost, status, articleNumber); 
 	}
 	
-	public String getCsvHeaderString() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       	
+	public static String getCsvHeaderString() {
 		return "article number,title,cost,status";
+		
+	}
+	
+	public static Item parseItem(String csvRecord) {
+		String[] values = csvRecord.split(",");
+		String title = values[0];
+		int pages = Integer.parseInt(values[1]);
+		String publisher = values[2];
+		float cost = Float.parseFloat(values[3]);
+		String status = values[4];
+		int articleNumber = Integer.parseInt(values[5]);
+		return new Book(title, pages, publisher, cost, status, articleNumber);
 	}
 	
 	@Override
