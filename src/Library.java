@@ -32,7 +32,7 @@ public class Library implements ILibrary{
 			PrintWriter printWriter = new PrintWriter(itemsPath);
 			printWriter.println(Item.getCsvHeaderString());
 			for (Item item : items) {
-				String csvRecord = Item.itemCsvRecord();
+				String csvRecord = item.itemCsvRecord();
 				printWriter.println(csvRecord);
 			}
 			printWriter.close();
