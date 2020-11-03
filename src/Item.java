@@ -6,7 +6,7 @@ public abstract class Item {
 	protected String status;
 	protected int articleNumber;
 	
-	public Item(String title, float cost, String status, int articleNumber) {
+	public Item(int articleNumber, String title, float cost, String status) {
 		this.title = title;
 		this.articleNumber = articleNumber;
 		this.status = status;
@@ -49,12 +49,12 @@ public abstract class Item {
 	
 	public static Item parseItem(String csvRecord) {
 		String[] values = csvRecord.split(",");
-		String title = values[0];
-		int pages = Integer.parseInt(values[1]);
-		String publisher = values[2];
-		float cost = Float.parseFloat(values[3]);
-		String status = values[4];
-		int articleNumber = Integer.parseInt(values[5]);
+		int articleNumber = Integer.parseInt(values[0]);
+		String title = values[1];
+		float cost = Float.parseFloat(values[2]);
+		int pages = Integer.parseInt(values[3]);
+		String publisher = values[4];
+		String status = values[5];
 		return new Book(articleNumber, title, cost, pages, publisher, status);
 	}
 	
