@@ -1,5 +1,10 @@
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 public class LibraryManager {
 	
@@ -161,7 +166,15 @@ public class LibraryManager {
     }
 	
 	public static void main(String[] args) {
-		LibraryManager manager = new LibraryManager("movies.csv");
+		try {
+			FileWriter writer = new FileWriter("Library.csv");
+			CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
+			printer.printRecord("article number", "title", "cost", "pages", "publisher", "status");
+			printer.printRecord(11, "Jerusalem", "120.00", "300", "Bonniers", "Utlånad: Rasmus Cederfeldt 890890809");
+			//printer.printRecord(12, "Dagar i Burma", "89.00", "Tillgänglig");
+			printer.close();
+			} catch (IOException e) {}
+		LibraryManager manager = new LibraryManager("/Users/rasmuscederfeldt/eclipse-workspace/Library/Library.csv");
 		manager.start();
 	}
 
