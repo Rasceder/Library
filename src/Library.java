@@ -9,8 +9,6 @@ public class Library implements ILibrary{
 	private ArrayList<Item> items;
 	private String itemsPath;
 	
-	static final int LIBRARY_CAPACITY = 999;
-	
 	public Library(String itemsPath) throws FileNotFoundException {
 		this.itemsPath = itemsPath;
 		items = parseItems(itemsPath);
@@ -49,17 +47,13 @@ public class Library implements ILibrary{
 		
 		// Read the movie from CSV
 		ArrayList<Item> items = new ArrayList<>();
-		int recordIndex = 0;
 		scanner.nextLine(); // skip header line
 		while (scanner.hasNextLine()) {
 			String csvRecord = scanner.nextLine();
-			Item newRecord = items.get(recordIndex);
-			newRecord = Item.parseItem(csvRecord);
-			recordIndex++;
+			items.add(Item.parseItem(csvRecord));
 		}
 		scanner.close();
-		
-		
+				
 		return items;
 
 	}
