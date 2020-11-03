@@ -17,7 +17,7 @@ public class Book extends Item{
 	}
 
 	public Book(int articleNumber, String title, float cost, int pages, String publisher, String status) {
-		super(title, cost, status, articleNumber);
+		super(articleNumber, title, cost, status);
 		this.pages = pages;
 		this.publisher = publisher;
 	}
