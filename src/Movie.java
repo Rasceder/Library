@@ -42,7 +42,7 @@ public class Movie {
 		this.price = price;
 	}
 	
-	/* hej */
+	/* hejhej */
 	
 	public String movieCsvRecord() {
 		return String.format("%s,%d,%.2f,%d,%lf", title, runtime, rating, isbn, price);
