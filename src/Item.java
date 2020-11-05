@@ -38,7 +38,7 @@ public abstract class Item {
 	}
 	
 	public String itemCsvRecord() {
-		return String.format("%s,%.2f,%s,%d,%d,%s,", title, cost, status, articleNumber); 
+		return String.format("%s,%.2f,%s,%d,", title, cost, status, articleNumber); 
 	}
 	
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        	
@@ -47,16 +47,37 @@ public abstract class Item {
 		
 	}
 	
-	public static Item parseItem(String csvRecord) {
-		String[] values = csvRecord.split(",");
-		int articleNumber = Integer.parseInt(values[0]);
-		String title = values[1];
-		float cost = Float.parseFloat(values[2]);
-		int pages = Integer.parseInt(values[3]);
-		String publisher = values[4];
-		String status = values[5];
-		return new Book(articleNumber, title, cost, pages, publisher, status);
-	}
+//	public static void parseItem(String csvRecord) {
+//		String[] values = csvRecord.split(",");
+//		if (values[0].charAt(0) == 0) {
+//			parseMovie(csvRecord);
+//		} else if (values[0].charAt(0) == 1) {
+//			parseBook(csvRecord);
+//		}
+//	}
+//	
+//	public static Book parseBook(String csvRecord) {
+//		String[] values = csvRecord.split(",");
+//		int articleNumber = Integer.parseInt(values[0]);
+//		String title = values[1];
+//		float cost = Float.parseFloat(values[2]);
+//		int pages = Integer.parseInt(values[3]);
+//		String publisher = values[4];
+//		String status = values[5];
+//		return new Book(articleNumber, title, cost, pages, publisher, status);
+//	}
+//	
+//	public static Movie parseMovie(String csvRecord) {
+//		String[] values = csvRecord.split(",");
+//		int articleNumber = Integer.parseInt(values[0]);
+//		String title = values[1];
+//		float cost = Float.parseFloat(values[2]);
+//		int runtime = Integer.parseInt(values[3]);
+//		float rating = Float.parseFloat(values[4]);
+//		String status = values[5];
+//
+//		return new Movie(articleNumber, title, cost, runtime, rating, status);
+//	}
 	
 	@Override
 	public String toString() {
