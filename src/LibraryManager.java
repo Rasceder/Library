@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
@@ -72,9 +73,9 @@ public class LibraryManager {
 	}
 	
 	private void registerCommand(String[] arguments) {
-		if (arguments[0].charAt(0) == 0) {
+		if (arguments[0].charAt(0) =='2') {
 			registerMovie(arguments);
-		} else if (arguments[0].charAt(0) == 1) {
+		} else if (arguments[0].charAt(0) == '1') {
 			registerBook(arguments);
 		}
 	}
@@ -89,16 +90,16 @@ public class LibraryManager {
 		try {
 			articleNumber = Integer.parseInt(arguments[0]);
 			title = arguments[1];
-			runtime = Integer.parseInt(arguments[2]);
-			rating = Float.parseFloat(arguments[3]);
-			cost = Float.parseFloat(arguments[4]);
+			cost = Float.parseFloat(arguments[2]);
+			runtime = Integer.parseInt(arguments[3]);
+			rating = Float.parseFloat(arguments[4]);
 			status = arguments[5];
 		} catch (Exception e) {
 			System.out.println("Failed to parse movie attributes from arguments.");
 			return;
 		}
-		//Movie movie = new Movie(title, runtime, rating);
-		//library.addItem(movie);
+		Movie movie = new Movie(articleNumber, title, cost, runtime, rating, status);
+		library.addItem(movie);
 	}
 	
 	private void registerBook(String[] arguments) {
@@ -157,11 +158,12 @@ public class LibraryManager {
     }
     
     private String[] parseArguments(String userInput) {
-        String[] commandAndArguments = userInput.split(" ");
+        String[] commandAndArguments = userInput.split(": ");
         String[] arguments = new String[commandAndArguments.length - 1];
         for (int i=1; i<commandAndArguments.length; i++) {
             arguments[i-1] = commandAndArguments[i];
         }
+
         return arguments; // contains only the arguments
     }
 	
@@ -171,7 +173,7 @@ public class LibraryManager {
 			CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
 			printer.printRecord("article number", "title", "cost", "pages", "publisher", "status");
 			printer.printRecord(11, "Jerusalem", "120.00", "300", "Bonniers", "Utlånad: Rasmus Cederfeldt 890890809");
-			//printer.printRecord(12, "Dagar i Burma", "89.00", "Tillgänglig");
+			printer.printRecord(2, "The Thing", "89.00", "130", "8.2", "Tillgänglig");
 			printer.close();
 			} catch (IOException e) {}
 		LibraryManager manager = new LibraryManager("/Users/rasmuscederfeldt/eclipse-workspace/Library/Library.csv");
