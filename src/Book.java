@@ -24,27 +24,27 @@ public class Book extends Item{
 	
 	
 	public String bookCsvRecord() {
-		return String.format("%s,%.2f,%s,%d,%d,%s,", pages, publisher, title, cost, status, articleNumber); 
+		return String.format("%d,%s,%.2f,%d,%s,%s,", articleNumber, title, cost, pages, publisher, status); 
 	}
 		
 	public static String getBookCsvHeaderString() {
-		return "pages,publisher";
+		return "article number,title,cost,pages,publisher,status";
 	}
 
 	public static Book parseBook(String csvRecord) {
 		String[] values = csvRecord.split(",");
-		String title = values[0];
-		int pages = Integer.parseInt(values[1]);
-		String publisher = values[2];
-		float cost = Float.parseFloat(values[3]);
-		String status = values[4];
-		int articleNumber = Integer.parseInt(values[5]);
+		int articleNumber = Integer.parseInt(values[0]);
+		String title = values[1];
+		float cost = Float.parseFloat(values[2]);
+		int pages = Integer.parseInt(values[3]);
+		String publisher = values[4];
+		String status = values[5];
 		return new Book(articleNumber, title, cost, pages, publisher, status);
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%d: Pages %s: Publisher", pages, publisher);
+		return String.format("Article Number: %d, Title: %s, Price: %.2f, Pages: %d, Publisher: %s, Status: %s,", articleNumber, title, cost, pages, publisher, status);
 	}
 	 
 }
