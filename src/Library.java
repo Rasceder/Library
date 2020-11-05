@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Library implements ILibrary{
@@ -50,10 +51,16 @@ public class Library implements ILibrary{
 		scanner.nextLine(); // skip header line
 		while (scanner.hasNextLine()) {
 			String csvRecord = scanner.nextLine();
-			items.add(Item.parseItem(csvRecord));
+			String[] values = csvRecord.split(",");
+			if (values[0].charAt(0) == '2') {
+				items.add(Movie.parseMovie(csvRecord));
+			} 
+			else if (values[0].charAt(0) == '1') {
+				items.add(Book.parseBook(csvRecord));
+			}		
 		}
 		scanner.close();
-				
+		
 		return items;
 
 	}
