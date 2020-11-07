@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Library implements ILibrary{
@@ -13,15 +14,34 @@ public class Library implements ILibrary{
 	public Library(String itemsPath) throws FileNotFoundException {
 		this.itemsPath = itemsPath;
 		items = parseItems(itemsPath);
+		Collections.sort(items);
+	}
+	
+	public void searchItem(int articleNumber) throws Exception {
+		for (Item item : items) {
+			if(item.getArticleNumber() == articleNumber) {
+				System.out.println(item.toString(articleNumber));
+			} 
+		}	
 	}
 	
 	public void addItem(Item item) {
 		items.add(item);
+		Collections.sort(items);
 		writeItems();
 	}
 	
-	public void removeItem(int index) {
-		items.remove(index);
+	public void removeItem(int articleNumber) {
+		Item[] newItem = new Item[items.size()-1];
+		int index = 0;
+		for (Item item : items) {
+			if(item.getArticleNumber() != articleNumber) {
+				newItem[index] = item;
+				index++;
+			}
+		}
+		items = new ArrayList<Item>(Arrays.asList(newItem));
+		Collections.sort(items);
 		writeItems();
 	}
 	
@@ -59,19 +79,26 @@ public class Library implements ILibrary{
 				items.add(Book.parseBook(csvRecord));
 			}		
 		}
+		
 		scanner.close();
 		
 		return items;
 
 	}
 	
+//	public void sortLibrary() {
+//		   Collections.sort(items);
+//		   
+//		   for(Item item: items){
+//				System.out.println(item);
+//		   }
+//	}
+	
 	@Override
 	public String toString() {
 		String s = "";
-		int index = 0;
 		for (Item item : items) {
-			s += index + ": " + item.toString() + "\n";
-			index++;
+			s += item.toString() + "\n";
 		}
 		return s;
 	}
