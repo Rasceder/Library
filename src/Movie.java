@@ -1,4 +1,4 @@
-public class Movie extends Item{
+public class Movie extends Item implements Comparable<Item>{
 	
 	private int runtime;
 	private float rating;	
@@ -44,7 +44,19 @@ public class Movie extends Item{
 	
 	@Override
 	public String toString() {
-		return String.format("Article Number: %d, Title: %s, Price: %.2f, Runtime: %d, Rating: %.1f, Status: %s,", articleNumber, title, cost, runtime, rating, status);
+		return String.format("%d (Movie): %s. Status: %s,", articleNumber, title, status);
 	}
+	
+	@Override
+	public String toString(int searchArticleNumber) {
+		return String.format("(Movie) %s, Value %.2fkr, Runtime %d, Rating %s", title, cost, runtime, rating);
+	}
+
+	@Override
+	 public int compareTo(Item compareItem) {
+	     int compareNum=((Item)compareItem).getArticleNumber();
+	     
+	     return this.articleNumber-compareNum;
+	 }
 	
 }
