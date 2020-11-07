@@ -1,5 +1,5 @@
 
-public class Book extends Item{
+public class Book extends Item implements Comparable<Item>{
 	
 	protected int pages;
 	protected String publisher;
@@ -44,8 +44,21 @@ public class Book extends Item{
 	
 	@Override
 	public String toString() {
-		return String.format("Article Number: %d, Title: %s, Price: %.2f, Pages: %d, Publisher: %s, Status: %s,", articleNumber, title, cost, pages, publisher, status);
+		return String.format("%d (Book): %s. Status: %s,", articleNumber, title, status);
 	}
+	
+	@Override
+	public String toString(int searchArticleNumber) {
+		return String.format("(Book) %s, Value %.2fkr, Pages %d, Publisher %s", title, cost, pages, publisher);
+		
+	}
+
+	@Override
+	 public int compareTo(Item compareItem) {
+	     int compareNum=((Item)compareItem).getArticleNumber();
+	     
+	     return this.articleNumber-compareNum;
+	 }
 	 
 }
 
