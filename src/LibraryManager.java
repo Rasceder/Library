@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
@@ -38,8 +40,13 @@ public class LibraryManager {
 		boolean running = true;
 		Scanner scanner = new Scanner(System.in); 
 		
+		System.out.println("R & O LibrarySystem \n");
+		System.out.println("Current inventory:");
+		listCommand();
+		
 		while (running) {
 			
+			System.out.print("> ");
 			String userInput = scanner.nextLine();
 			Command command = parseCommand(userInput);
 			
@@ -64,12 +71,26 @@ public class LibraryManager {
 			case LIST:
 				listCommand();
 				break;
+			case INFO:
+				infoCommand(arguments);
+				break;
 			}
 			
 		}
 		
 		scanner.close();
 		
+	}
+	
+	private void infoCommand(String[] arguments) {
+		int articleNumber;
+		try {
+			articleNumber = Integer.parseInt(arguments[0]);
+			library.searchItem(articleNumber);
+		} catch (Exception e) {
+			System.out.println("Error: No product with id " + arguments[0] + "registered.");
+			return;
+		}				
 	}
 	
 	private void registerCommand(String[] arguments) {
@@ -126,14 +147,14 @@ public class LibraryManager {
 	
 
 	private void deregisterCommand(String[] arguments) {
-		int index;
+		int articleNumber;
 		try {
-			index = Integer.parseInt(arguments[0]);
+			articleNumber = Integer.parseInt(arguments[0]);
 		} catch (Exception e) {
 			System.out.println("Failed to parse index from arguments.");
 			return;
 		}
-		library.removeItem(index);
+		library.removeItem(articleNumber);
 	}
 	
 	private void listCommand() {
@@ -149,6 +170,8 @@ public class LibraryManager {
     			return Command.DEREGISTER;
     		case "list":
 				return Command.LIST;
+    		case "info":
+    			return Command.INFO;
     		case "quit":
     		case "exit":
     			return Command.QUIT;
@@ -172,11 +195,12 @@ public class LibraryManager {
 			FileWriter writer = new FileWriter("Library.csv");
 			CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
 			printer.printRecord("article number", "title", "cost", "pages", "publisher", "status");
-			printer.printRecord(11, "Jerusalem", "120.00", "300", "Bonniers", "Utlånad: Rasmus Cederfeldt 890890809");
+			printer.printRecord(11, "Jerusalem", "120.00", "300", "Bonniers", "Utlånad till Rasmus Cederfeldt - 890890809");
 			printer.printRecord(2, "The Thing", "89.00", "130", "8.2", "Tillgänglig");
 			printer.close();
 			} catch (IOException e) {}
 		LibraryManager manager = new LibraryManager("/Users/rasmuscederfeldt/eclipse-workspace/Library/Library.csv");
+		
 		manager.start();
 	}
 
