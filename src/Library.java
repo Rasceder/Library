@@ -4,35 +4,59 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Library implements ILibrary, Comparable<Object>{
 	
 	private static ArrayList<Item> items;
 	private String itemsPath;
-	private int ArticleNumber;
+	private String ArticleNumber;
 	
-	public int getMovieArticleNumber() {
+	public String getArticleNumber() {
 		return this.ArticleNumber;
 	}
 
-	public boolean setMovieArticleNumber() {
-		int movieArticleNumber;
+	public boolean setArticleNumber(String itemType) {
+		String itemId = null;
+		int userInput = 0;
+		boolean isRunning = true;
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter product ID:"); 
-	    System.out.println("> ");
+		if  (itemType.equals("m")) {
+			itemId = "2";
+		} else if (itemType.equals("b")) {
+			itemId = "1";
+		} else {
+			System.out.println("Please choose between: Book (b), Movie (m)");
+			registerItem();
+		}
+		while (isRunning) {
+		System.out.println("Enter four digit product ID:"); 
+	    System.out.print("\n> ");   
+	    try {
+	    userInput = scanner.nextInt();
+	    } catch (Exception e) {
+	    	System.out.println("Please enter integers when registering ID.");
+	    }  
 	    
-	    movieArticleNumber = scanner.nextInt();
-	    
-	    
-        if(movieArticleNumber > 19999 && movieArticleNumber > 30000){
-        	return false;
-           // throw new IllegalArgumentException("Please choose an available ID between 20000 and 29999");
+        if(Integer.toString(userInput).length() == 4 && Integer.toString(userInput) != null){
+        	
+        	itemId += Integer.toString(userInput);
+        	if(searchItem(Integer.parseInt(itemId)).equals("null")) {
+        		this.ArticleNumber = itemId;
+        		return true;
+        	} else {
+        		System.out.println("Error: ID " + itemId + " is already registered"); 
+        		isRunning = false;
+        	}
+      	
+        } else {
+        	System.out.println("Error: only four digits allowed.");   
+        	isRunning = false;
+        }       
+		}
 
-        }else{
-            this.ArticleNumber = movieArticleNumber;
-            return true;
-        }
+		return false;
 	}
 
 	public Library(String itemsPath) throws FileNotFoundException {
@@ -57,15 +81,16 @@ public class Library implements ILibrary, Comparable<Object>{
 	}
 	
 	public void removeItem(int articleNumber) {
-		Item[] newItem = new Item[items.size()-1];
-		int index = 0;
-		for (Item item : items) {
-			if(item.getArticleNumber() != articleNumber) {
-				newItem[index] = item;
-				index++;
-			}
-		}
-		items = new ArrayList<Item>(Arrays.asList(newItem));
+		
+		Iterator<Item> itr = items.iterator(); 
+		while (itr.hasNext()) 
+        { 
+            Item item = (Item)itr.next(); 
+            if (item.getArticleNumber() == articleNumber) {
+                itr.remove(); 
+                System.out.println(item.getArticleNumber()+ " " + "\"" + item.getTitle() + "\"" + " has been deregistered.");
+            }
+        } 
 		Collections.sort(items);
 		writeItems();
 	}
@@ -88,7 +113,7 @@ public class Library implements ILibrary, Comparable<Object>{
 	public void registerItem() {
 		Scanner scanner = new Scanner(System.in);
 		
-		int articleNumber; // Movies article number must start with a number 2. All article number are five digits long.
+		String articleNumber = "0"; // Movies article number must start with a number 2. All article number are five digits long.
 		float cost;
 		String status;
 		String title;
@@ -97,183 +122,89 @@ public class Library implements ILibrary, Comparable<Object>{
 		int pages;
 		String publisher;
 		String userInput;
-		int itemSort = 0;
+		char itemSort = '0';
+		boolean isRunning = true;
 		
-			
+		do {
 		System.out.println("What are you registering? Book (b), Movie (m)");
 		System.out.print("\n> ");
+		setArticleNumber(scanner.nextLine());
+		articleNumber = getArticleNumber();
+		System.out.println("Product ID has been set to " + articleNumber);
+		
+		System.out.println("Enter Title:"); 
+		System.out.print("\n> ");
 		userInput = scanner.nextLine();
+		title = userInput;
 		
-		if  (userInput.equals("m")) {
-			itemSort = 2;
-		} else if (userInput.equals("b")) {
-			itemSort = 1;
-		} else {
-			System.out.println("Please choose between: Book (b), Movie (m)");
+		System.out.println("Enter value:"); 
+		System.out.print("\n> ");
+		userInput = scanner.nextLine();
+		try {
+		cost = Float.parseFloat(userInput);
+		} catch (Exception e) {
+			System.out.println("Failed to parse value attributes from arguments.");
+			return;
 		}
+		status = "(In stock)";
 		
-			if (itemSort == 2) {
-				setMovieArticleNumber();
-				while(setMovieArticleNumber()) {
-					
-	            if(searchItem(getMovieArticleNumber()).equals("null"))
-
-	            	try {
-	            		    
-	            			articleNumber = getMovieArticleNumber();
-	            				            		
-					 } catch (NumberFormatException e) {	
-						 System.out.println("Please enter integers when registering ID.");
-						 return;
-						 }
-				}
-	             
-	            } else {
-				System.out.println("The ID you have entered is unavailable.");
-				System.out.println("Please choose an available ID between 20000 and 29999");
-				return;
-				}
-	            
-			    if (itemSort == 1) {
-				System.out.println("Enter product ID:"); 
-			    System.out.println("> ");
-	            userInput = scanner.nextLine();
-	            if (Integer.parseInt(userInput) > 9999 && Integer.parseInt(userInput) < 20000) {
-	            	try {
-	            		    searchItem(Integer.parseInt(userInput)).equals(null);
-	            			articleNumber = Integer.parseInt(userInput);
-					 } catch (NumberFormatException e) {	
-						 System.out.println("Please enter integers when registering ID.");
-						 return;
-						 }
-	            } else {
-	            	System.out.println("The ID you have entered is unavailable.");
-	            	System.out.println("Please choose an available ID between 9999 and 20000");
-	            	return;
-				}
-							
-			System.out.println("Enter Title:"); 
-			System.out.println("> ");
-			userInput = scanner.nextLine();
-			title = userInput;
+		itemSort = articleNumber.charAt(0);
+		
+		
+		while(itemSort == '2' && isRunning) {
 			
-			System.out.println("Enter value:"); 
-			System.out.println("> ");
+			System.out.println("Enter runtime in minutes:"); 
+			System.out.print("\n> ");
 			userInput = scanner.nextLine();
 			try {
-			cost = Float.parseFloat(userInput);
+			runtime = Integer.parseInt(userInput);
 			} catch (Exception e) {
-				System.out.println("Failed to parse value attributes from arguments.");
+				System.out.println("Failed to parse attributes from arguments.");
 				return;
 			}
 			
-			
-				if (itemSort == 2) {
-				System.out.println("Enter runtime in minutes:"); 
-				System.out.println("> ");
-				userInput = scanner.nextLine();
-				try {
-				runtime = Integer.parseInt(userInput);
-				} catch (Exception e) {
-					System.out.println("Failed to parse attributes from arguments.");
-					return;
-				}
-				
-	    		System.out.println("Enter IMDB rating:"); 
-	    	    System.out.println("> ");
-		        userInput = scanner.nextLine();
-		        try {
-		        rating = Float.parseFloat(userInput);
-				} catch (Exception e) {
-					System.out.println("Failed to parse attributes from arguments.");
-					return;
-				}
-	    
-			status = "(In stock)";
-			
-		Movie movie = new Movie(articleNumber, title, cost, runtime, rating, status);
-		addItem(movie);
-		System.out.println(movie.getTitle() + " has been succesfully registered");
-		
-		
-		} else if (itemSort == 1) {
-				
-			    
-				System.out.println("Enter number of pages:"); 
-				System.out.println("> ");
-				userInput = scanner.nextLine();
-				try {
-				pages = Integer.parseInt(userInput);
-				} catch (Exception e) {
-					System.out.println("Failed to parse attributes from arguments.");
-					return;
-				    }
-			    
-			    
-				System.out.println("Enter publisher:"); 
-				System.out.println("> ");
-				userInput = scanner.next();
-				publisher = userInput;
-				
-				status = "(In stock)";
-				
-				Book book = new Book(articleNumber, title, cost, pages, publisher, status);
-				addItem(book);
-				System.out.println(book.getTitle() + " has been succesfully registered");
-			    }
-			    }
+    		System.out.println("Enter IMDB rating:"); 
+    		System.out.print("\n> ");
+	        userInput = scanner.nextLine();
+	        try {
+	        rating = Float.parseFloat(userInput);
+			} catch (Exception e) {
+				System.out.println("Failed to parse attributes from arguments.");
+				return;
 			}
-				
-
-				
+	        
+			Movie movie = new Movie(Integer.parseInt(articleNumber), title, cost, runtime, rating, status);
+			addItem(movie);
+			System.out.println(movie.getTitle() + " has been succesfully registered");	
+			isRunning = false;
+		}
 		
-	
-//	private void registerBook() {
-//		Scanner scanner = new Scanner(System.in);
-//		
-//		int articleNumber = 0; // Movies article number must start with a number 2. All article number are five digits long.
-//		float cost;
-//		String status;
-//		String title;
-//		int pages;
-//		String publisher;
-//		String userInput;
-//		boolean isRunning = true;
-//		
-//		while(isRunning) {
-//	    System.out.println("Enter product ID:"); 
-//	    System.out.println("> ");
-//	    userInput = scanner.nextLine();
-//	    
-//		if (Integer.parseInt(userInput) > 9999 || Integer.parseInt(userInput) < 20000 ) {
-//			try {
-//				if(searchItem(Integer.parseInt(userInput)).equals(null)){
-//				articleNumber = Integer.parseInt(userInput);
-//				} 
-//			} catch (NumberFormatException e) {	
-//				System.out.println("Please enter integers when registering ID.");
-//				return;
-//			}
-//		} else {
-//			System.out.println("The ID you have entered is unavailable.");
-//			System.out.println("Please choose an available ID between 20000 and 29999");
-//			return;
-//			}
-//
-//		try {
-//			articleNumber = Integer.parseInt(arguments[0]);
-//			title = arguments[1];
-//			cost = Float.parseFloat(arguments[2]);
-//			pages = Integer.parseInt(arguments[3]);
-//			publisher = arguments[4];
-//			status = arguments[5];
-//		} catch (Exception e) {
-//			System.out.println("Failed to parse movie attributes from arguments.");
-//			return;
-//		}
-//		Book book = new Book(articleNumber, title, cost, pages, publisher, status);
-//		library.addItem(book);
-//	}
+		while(itemSort == '1' && isRunning) {
+			
+			System.out.println("Enter number of pages:"); 
+			System.out.print("\n> ");
+			userInput = scanner.nextLine();
+			try {
+			pages = Integer.parseInt(userInput);
+			} catch (Exception e) {
+				System.out.println("Failed to parse attributes from arguments.");
+				return;
+			}
+			
+			System.out.println("Enter publisher:"); 
+			System.out.print("\n> ");
+			userInput = scanner.next();
+			publisher = userInput;
+			
+			Book book = new Book(Integer.parseInt(articleNumber), title, cost, pages, publisher, status);
+			addItem(book);
+			System.out.println(book.getTitle() + " has been succesfully registered");
+			isRunning = false;
+		}
+
+	}
+		while (isRunning == true) ;
+	}
 
 	public ArrayList<Item> getItems() {
 		return items;
