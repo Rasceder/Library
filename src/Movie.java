@@ -23,7 +23,7 @@ public class Movie extends Item implements Comparable<Item>{
 	}
 	
 	public String movieCsvRecord() {
-		return String.format("%d,%s,%.2f,%d,%.1f,%s,", articleNumber, title, cost, runtime, rating, status);
+		return String.format("%d,%s,%.2f,%d,%.1f,%s", articleNumber, title, cost, runtime, rating, status);
 	}
 
 	public static String getCsvHeaderString() {
