@@ -2,6 +2,9 @@
 public interface ILibrary {
 	void addItem(Item item);
 	void removeItem(int index);
-	void searchItem(int articleNumber) throws Exception;
+	String searchItem(int articleNumber);
+	Object getItems();
+	int compareTo(Object o);
+	void registerItem();
 
 }
