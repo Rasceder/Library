@@ -1,2 +1,3 @@
-article number,title,cost,status
-The Thing,89,00,Tillgänglig,2,
+article number,title,cost,pages,publisher,status
+11111,Jerusalem,120.00,300,Bonniers,Borrowed by Rasmus Cederfeldt 890890809
+22222,The Thing,89.00,130,8.2,(In stock)
