@@ -46,7 +46,7 @@ public class LibraryManager {
 		
 		while (running) {
 			
-			System.out.print("> ");
+			System.out.print("\n> ");
 			String userInput = scanner.nextLine();
 			Command command = parseCommand(userInput);
 			
@@ -63,7 +63,7 @@ public class LibraryManager {
 			
 			switch (command) {
 			case REGISTER:
-				registerCommand(arguments);
+				registerCommand();
 				break;
 			case DEREGISTER:
 				deregisterCommand(arguments);
@@ -76,76 +76,45 @@ public class LibraryManager {
 				break;
 			}
 			
-		}
-		
+		}	
 		scanner.close();
-		
 	}
 	
 	private void infoCommand(String[] arguments) {
-		int articleNumber;
-		try {
-			articleNumber = Integer.parseInt(arguments[0]);
-			library.searchItem(articleNumber);
-		} catch (Exception e) {
-			System.out.println("Error: No product with id " + arguments[0] + "registered.");
-			return;
-		}				
-	}
-	
-	private void registerCommand(String[] arguments) {
-		if (arguments[0].charAt(0) =='2') {
-			registerMovie(arguments);
-		} else if (arguments[0].charAt(0) == '1') {
-			registerBook(arguments);
-		}
-	}
 
-	private void registerMovie(String[] arguments) {
 		int articleNumber;
-		float cost;
-		String status;
-		String title;
-		int runtime;
-		float rating;
 		try {
 			articleNumber = Integer.parseInt(arguments[0]);
-			title = arguments[1];
-			cost = Float.parseFloat(arguments[2]);
-			runtime = Integer.parseInt(arguments[3]);
-			rating = Float.parseFloat(arguments[4]);
-			status = arguments[5];
-		} catch (Exception e) {
-			System.out.println("Failed to parse movie attributes from arguments.");
-			return;
-		}
-		Movie movie = new Movie(articleNumber, title, cost, runtime, rating, status);
-		library.addItem(movie);
-	}
-	
-	private void registerBook(String[] arguments) {
-		int articleNumber;
-		float cost;
-		String status;
-		String title;
-		int pages;
-		String publisher;
-		try {
-			articleNumber = Integer.parseInt(arguments[0]);
-			title = arguments[1];
-			cost = Float.parseFloat(arguments[2]);
-			pages = Integer.parseInt(arguments[3]);
-			publisher = arguments[4];
-			status = arguments[5];
-		} catch (Exception e) {
-			System.out.println("Failed to parse movie attributes from arguments.");
-			return;
-		}
-		Book book = new Book(articleNumber, title, cost, pages, publisher, status);
-		library.addItem(book);
-	}
-	
+		
 
+			if (library.searchItem(articleNumber) != null) {
+				try {
+					
+						articleNumber = Integer.parseInt(arguments[0]);
+						System.out.println(library.searchItem(articleNumber));
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return;
+				}
+	        } else {
+				System.out.println("Error: No product with id " + arguments[0] + " registered.");
+				return;
+	        }
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+
+}
+
+	private void registerCommand() {
+		library.registerItem();
+
+	}
+	
 	private void deregisterCommand(String[] arguments) {
 		int articleNumber;
 		try {
@@ -172,6 +141,8 @@ public class LibraryManager {
 				return Command.LIST;
     		case "info":
     			return Command.INFO;
+    		case "checkin":
+    			return Command.CHECKIN;
     		case "quit":
     		case "exit":
     			return Command.QUIT;
