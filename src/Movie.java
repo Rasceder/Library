@@ -44,12 +44,12 @@ public class Movie extends Item implements Comparable<Item>{
 	
 	@Override
 	public String toString() {
-		return String.format("%d (Movie): %s. Status: %s,", articleNumber, title, status);
+		return String.format("%d (Movie): %s\n      Status: %s,", articleNumber, title, status);
 	}
 	
 	@Override
 	public String toString(int searchArticleNumber) {
-		return String.format("(Movie) %s, Value %.2fkr, Runtime %d, Rating %s", title, cost, runtime, rating);
+		return String.format("(Movie) %s, Value: %.2fkr, Runtime: %d, Rating: %s", title, cost, runtime, rating);
 	}
 
 	@Override
