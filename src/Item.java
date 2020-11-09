@@ -47,44 +47,16 @@ public abstract class Item implements Comparable<Item> {
 		
 	}
 	
-	 public int compareTo(Item compareItem) {
+	public int compareTo(Item compareItem) {
 	     int compareNum=((Item)compareItem).getArticleNumber();
 	     
 	     return this.articleNumber-compareNum;
-	 }
+	}
 	
-//	public static void parseItem(String csvRecord) {
-//		String[] values = csvRecord.split(",");
-//		if (values[0].charAt(0) == 0) {
-//			parseMovie(csvRecord);
-//		} else if (values[0].charAt(0) == 1) {
-//			parseBook(csvRecord);
-//		}
-//	}
-//	
-//	public static Book parseBook(String csvRecord) {
-//		String[] values = csvRecord.split(",");
-//		int articleNumber = Integer.parseInt(values[0]);
-//		String title = values[1];
-//		float cost = Float.parseFloat(values[2]);
-//		int pages = Integer.parseInt(values[3]);
-//		String publisher = values[4];
-//		String status = values[5];
-//		return new Book(articleNumber, title, cost, pages, publisher, status);
-//	}
-//	
-//	public static Movie parseMovie(String csvRecord) {
-//		String[] values = csvRecord.split(",");
-//		int articleNumber = Integer.parseInt(values[0]);
-//		String title = values[1];
-//		float cost = Float.parseFloat(values[2]);
-//		int runtime = Integer.parseInt(values[3]);
-//		float rating = Float.parseFloat(values[4]);
-//		String status = values[5];
-//
-//		return new Movie(articleNumber, title, cost, runtime, rating, status);
-//	}
-	
+	public void setArticleNumber(int articleNumber) {
+		this.articleNumber = articleNumber;
+	}
+
 	@Override
 	public String toString() {
 		super.toString();
@@ -92,7 +64,7 @@ public abstract class Item implements Comparable<Item> {
 	}
 
 	public String toString(int articleNumber2) {
-		// TODO Auto-generated method stub
+		super.toString();
 		return null;
 	}
 
