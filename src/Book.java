@@ -44,12 +44,12 @@ public class Book extends Item implements Comparable<Item>{
 	
 	@Override
 	public String toString() {
-		return String.format("%d (Book): %s. Status: %s,", articleNumber, title, status);
+		return String.format("%d (Book): %s\n      Status: %s", articleNumber, title, status);
 	}
 	
 	@Override
 	public String toString(int searchArticleNumber) {
-		return String.format("(Book) %s, Value %.2fkr, Pages %d, Publisher %s", title, cost, pages, publisher);
+		return String.format("(Book) %s, Value: %.2fkr, Pages: %d, Publisher: %s", title, cost, pages, publisher);
 		
 	}
 
