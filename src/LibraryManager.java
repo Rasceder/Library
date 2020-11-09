@@ -45,8 +45,8 @@ public class LibraryManager {
 		listCommand();
 		
 		while (running) {
-			
-			System.out.print("\n> ");
+			System.out.println("\n\n----------------| Library main menu |----------------");
+			System.out.print("\n\n> ");
 			String userInput = scanner.nextLine();
 			Command command = parseCommand(userInput);
 			
@@ -81,33 +81,24 @@ public class LibraryManager {
 	}
 	
 	private void infoCommand(String[] arguments) {
-
-		int articleNumber;
-		try {
-			articleNumber = Integer.parseInt(arguments[0]);
-		
-
-			if (library.searchItem(articleNumber) != null) {
-				try {
-					
-						articleNumber = Integer.parseInt(arguments[0]);
-						System.out.println(library.searchItem(articleNumber));
+	
+			try { 
+				if (library.searchItem(Integer.parseInt(arguments[0])) != "null") {
+				try {				
+						System.out.println(library.searchItem(Integer.parseInt(arguments[0])));
 					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Failed to parse index from arguments.");
 					return;
 				}
 	        } else {
-				System.out.println("Error: No product with id " + arguments[0] + " registered.");
+				System.out.println("Error: No item with id " + arguments[0] + " registered.");
 				return;
 	        }
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Failed to parse index from arguments.");
 				return;
 			}
-
 }
 
 	private void registerCommand() {
@@ -123,7 +114,11 @@ public class LibraryManager {
 			System.out.println("Failed to parse index from arguments.");
 			return;
 		}
+		if (library.searchItem(articleNumber).equals("null")) {
+			System.out.println("Error: No item with id " + arguments[0] + " registered.");
+		} else {
 		library.removeItem(articleNumber);
+		}
 	}
 	
 	private void listCommand() {
@@ -152,7 +147,7 @@ public class LibraryManager {
     }
     
     private String[] parseArguments(String userInput) {
-        String[] commandAndArguments = userInput.split(": ");
+        String[] commandAndArguments = userInput.split(" ");
         String[] arguments = new String[commandAndArguments.length - 1];
         for (int i=1; i<commandAndArguments.length; i++) {
             arguments[i-1] = commandAndArguments[i];
@@ -166,8 +161,8 @@ public class LibraryManager {
 			FileWriter writer = new FileWriter("Library.csv");
 			CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
 			printer.printRecord("article number", "title", "cost", "pages", "publisher", "status");
-			printer.printRecord(11, "Jerusalem", "120.00", "300", "Bonniers", "Utlånad till Rasmus Cederfeldt - 890890809");
-			printer.printRecord(2, "The Thing", "89.00", "130", "8.2", "Tillgänglig");
+			printer.printRecord(11111, "Jerusalem", "120.00", "300", "Bonniers", "Borrowed by Rasmus Cederfeldt 890890809");
+			printer.printRecord(22222, "The Thing", "89.00", "130", "8.2", "(In stock)");
 			printer.close();
 			} catch (IOException e) {}
 		LibraryManager manager = new LibraryManager("/Users/rasmuscederfeldt/eclipse-workspace/Library/Library.csv");
