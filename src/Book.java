@@ -24,7 +24,7 @@ public class Book extends Item implements Comparable<Item>{
 	
 	
 	public String bookCsvRecord() {
-		return String.format("%d,%s,%.2f,%d,%s,%s,", articleNumber, title, cost, pages, publisher, status); 
+		return String.format("%d,%s,%.2f,%d,%s,%s", articleNumber, title, cost, pages, publisher, status); 
 	}
 		
 	public static String getBookCsvHeaderString() {
