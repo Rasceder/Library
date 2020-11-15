@@ -2,13 +2,13 @@
 public class Movie extends Item implements Comparable<Item>{
 	
 	private int runtime;
-	private float rating;	
+	private String rating;	
 	
-	public float getRating() {
+	public String getRating() {
 		return rating;
 	}
 
-	public void setRating(float rating) {
+	public void setRating(String rating) {
 		this.rating = rating;
 	}
 
@@ -17,14 +17,14 @@ public class Movie extends Item implements Comparable<Item>{
 		return runtime;
 	}
 
-	public Movie(int articleNumber, String title, float cost, int runtime, float rating, String status) {
+	public Movie(int articleNumber, String title, int cost, int runtime, String rating, String status) {
 		super(articleNumber, title, cost, status);
 		this.runtime = runtime;
 		this.rating = rating;
 	}
 	
-	public String movieCsvRecord() {
-		return String.format("%d,%s,%.2f,%d,%.1f,%s", articleNumber, title, cost, runtime, rating, status);
+	public String CsvRecord() {
+		return String.format("%d,%s,%d,%d,%s,%s", articleNumber, title, cost, runtime, rating, status);
 	}
 
 	public static String getCsvHeaderString() {
@@ -35,9 +35,9 @@ public class Movie extends Item implements Comparable<Item>{
 		String[] values = csvRecord.split(",");
 		int articleNumber = Integer.parseInt(values[0]);
 		String title = values[1];
-		float cost = Float.parseFloat(values[2]);
+		int cost = Integer.parseInt(values[2]);
 		int runtime = Integer.parseInt(values[3]);
-		float rating = Float.parseFloat(values[4]);
+		String rating = values[4];
 		String status = values[5];
 
 		return new Movie(articleNumber, title, cost, runtime, rating, status);
@@ -50,7 +50,7 @@ public class Movie extends Item implements Comparable<Item>{
 	
 	@Override
 	public String toString(int searchArticleNumber) {
-		return String.format("(Movie) %s, Value: %.2fkr, Runtime: %d, Rating: %s", title, cost, runtime, rating);
+		return String.format("(Movie) %s, Value: %.dkr, Runtime: %d, Rating: %s", title, cost, runtime, rating);
 	}
 
 	@Override
