@@ -1,6 +1,8 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
@@ -119,7 +121,7 @@ public class LibraryManager {
 		}
 		try { 
 			library.searchItem(articleNumber); 
-			//library.removeItem(articleNumber);
+			library.removeItem(articleNumber);
 		} catch (NullPointerException e) {
 			System.out.println("Error: No item with id " + arguments[0] + " registered.");
 			return;
@@ -215,18 +217,27 @@ public class LibraryManager {
     }
 	
 	public static void main(String[] args) {
-		try {
-			FileWriter writer = new FileWriter("Library.csv");
-			CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
-			printer.printRecord("article number", "title", "cost", "pages", "publisher", "status");
-			printer.printRecord(11111, "Jerusalem", "120.00", "300", "Bonniers", "Borrowed by Rasmus Cederfeldt 890890809");
-			printer.printRecord(22222, "The Thing", "89.00", "130", "8.2", "(In stock)");
-			printer.close();
-			} catch (IOException e) {}
-		LibraryManager manager = new LibraryManager("Library.csv");
+		//try {
+				//FileWriter writer = new FileWriter("Library.csv");
+				//CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
+				//PrintWriter printer = new PrintWriter("Library.csv");
+				//printer.append("article number", "title", "cost", "pages / runtime", "publisher / rating", "status");
+			//printer.close();
+			//} catch (IOException e) {}
+	    File log = new File("Library3.csv");
+	    	    try{
+	    	    if(log.exists()==false){
+	    	            System.out.println("We had to make a new file.");
+	    	            log.createNewFile();
+	    	    	    PrintWriter out = new PrintWriter(log);
+	    	    	    out.append("article number,title,cost,pages/runtime,publisher/rating,status");
+	    	    	    out.close();
+	    	    }
+	    	    }catch(IOException e){
+	    	        System.out.println("COULD NOT LOG!!");
+	    	    }
+		LibraryManager manager = new LibraryManager("Library3.csv");
+		manager.start();	
 		
-		manager.start();
-	}
-
-
+	}	
 }
