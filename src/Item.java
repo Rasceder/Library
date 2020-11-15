@@ -2,11 +2,11 @@
 public abstract class Item implements Comparable<Item> {
 	
 	protected String title;
-	protected float cost;
+	protected int cost;
 	protected String status;
 	protected int articleNumber;
 	
-	public Item(int articleNumber, String title, float cost, String status) {
+	public Item(int articleNumber, String title, int cost, String status) {
 		this.title = title;
 		this.articleNumber = articleNumber;
 		this.status = status;
@@ -17,7 +17,7 @@ public abstract class Item implements Comparable<Item> {
 		return cost;
 	}
 
-	public void setCost(float cost) {
+	public void setCost(int cost) {
 		this.cost = cost;
 	}
 	
@@ -37,13 +37,13 @@ public abstract class Item implements Comparable<Item> {
 		return title;
 	}
 	
-	public String itemCsvRecord() {
+	public String CsvRecord() {
 		return String.format("%s,%.2f,%s,%d,", title, cost, status, articleNumber); 
 	}
 	
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        	
 	public static String getCsvHeaderString() {
-		return "article number,title,cost,status";
+		return "article number,title,cost,pages/runtime,publisher/rating,status";
 		
 	}
 	
