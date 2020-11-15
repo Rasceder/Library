@@ -6,6 +6,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="/Users/rasmuscederfeldt/Desktop/JAR/commons-csv-1.8/commons-csv-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
