@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -22,12 +21,12 @@ public class Library implements ILibrary, Comparable<Object>{
 		int userInput = 0;
 		boolean isRunning = true;
 		Scanner scanner = new Scanner(System.in);
+		
 		if  (itemType.equals("m")) {
 			itemId = "2";
 		} else if (itemType.equals("b")) {
 			itemId = "1";
 		} else {
-			System.out.println("Please choose between: Book (b), Movie (m)");
 			registerItem();
 		}
 		while (isRunning) {
@@ -42,14 +41,16 @@ public class Library implements ILibrary, Comparable<Object>{
         if(Integer.toString(userInput).length() == 4 && Integer.toString(userInput) != null){
         	
         	itemId += Integer.toString(userInput);
-        	if(searchItem(Integer.parseInt(itemId)).equals("null")) {
+        	try {
+        		
+        	searchItem(Integer.parseInt(itemId)); 
         		this.ArticleNumber = itemId;
         		return true;
-        	} else {
+        	} catch (NullPointerException e) {
         		System.out.println("Error: ID " + itemId + " is already registered"); 
         		isRunning = false;
         	}
-      	
+        	
         } else {
         	System.out.println("Error: only four digits allowed.");   
         	isRunning = false;
@@ -65,13 +66,13 @@ public class Library implements ILibrary, Comparable<Object>{
 		Collections.sort(items);
 	}
 	
-	public String searchItem(int articleNumber) {
+	public Item searchItem(int articleNumber) {
 		for (Item item : items) {
 			if(item.getArticleNumber() == articleNumber) {
-				return item.toString(articleNumber);
+				return item;
 			} 
 		}
-		return "null";
+		return null;
 	}
 	
 	public void addItem(Item item) {
@@ -89,6 +90,22 @@ public class Library implements ILibrary, Comparable<Object>{
             if (item.getArticleNumber() == articleNumber) {
                 itr.remove(); 
                 System.out.println(item.getArticleNumber()+ " " + "\"" + item.getTitle() + "\"" + " has been deregistered.");
+            } 
+        } 
+		Collections.sort(items);
+		writeItems();
+	}
+	
+	public void changeItemStatus(int articleNumber, String name, String phone) {
+		
+		Iterator<Item> itr = items.iterator(); 
+		while (itr.hasNext()) 
+        { 
+            Item item = (Item)itr.next(); 
+            if (item.getArticleNumber() == articleNumber) {
+            	String status = "Borrowed by " + name + " " + phone + ".";
+            	item.setStatus(status);
+            	System.out.println("Successfully lended " + item.getTitle() + " to " + name + ".");
             }
         } 
 		Collections.sort(items);
