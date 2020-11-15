@@ -1,9 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
@@ -33,6 +30,7 @@ public class LibraryManager {
 			System.out.println("Exiting");
 			System.exit(0);
 		}
+		
 	}
 	
 	public void start() {
@@ -74,6 +72,11 @@ public class LibraryManager {
 			case INFO:
 				infoCommand(arguments);
 				break;
+			case CHECKIN:
+				checkinCommand(arguments);
+				break;
+			case CHECKOUT:
+				checkoutCommand(arguments);
 			}
 			
 		}	
@@ -83,9 +86,9 @@ public class LibraryManager {
 	private void infoCommand(String[] arguments) {
 	
 			try { 
-				if (library.searchItem(Integer.parseInt(arguments[0])) != "null") {
+				if (library.searchItem(Integer.parseInt(arguments[0])) != null) {
 				try {				
-						System.out.println(library.searchItem(Integer.parseInt(arguments[0])));
+						System.out.println(library.searchItem(Integer.parseInt(arguments[0])).toString(Integer.parseInt(arguments[0])));
 					
 				} catch (Exception e) {
 					System.out.println("Failed to parse index from arguments.");
@@ -114,11 +117,64 @@ public class LibraryManager {
 			System.out.println("Failed to parse index from arguments.");
 			return;
 		}
-		if (library.searchItem(articleNumber).equals("null")) {
+		try { 
+			library.searchItem(articleNumber); 
+			//library.removeItem(articleNumber);
+		} catch (NullPointerException e) {
 			System.out.println("Error: No item with id " + arguments[0] + " registered.");
-		} else {
-		library.removeItem(articleNumber);
+			return;
 		}
+	}
+	
+	private void checkoutCommand(String[] arguments) {
+		Scanner scanner = new Scanner(System.in);
+		int articleNumber;
+		try {
+			articleNumber = Integer.parseInt(arguments[0]);
+		} catch (Exception e) {
+			System.out.println("Failed to parse index from arguments.");
+			return;
+		} try {
+		if (!library.searchItem(articleNumber).getStatus().equals("(In stock)")) {
+			System.out.println("Error: item with id " + arguments[0] + " is not available.");	
+			return;
+		} else {
+			System.out.println("Enter customer name:");
+			System.out.print("\n> ");
+			String name = scanner.nextLine();
+			System.out.println("Enter customer phone number:");
+			System.out.print("\n> ");
+			String phone = scanner.nextLine();
+			library.changeItemStatus(articleNumber, name, phone);
+		}
+	} catch (NullPointerException e) {
+		System.out.println("Error: No item with id " + arguments[0] + " registered.");
+		return;
+	}
+	}
+	
+	private void checkinCommand(String[] arguments) {
+		int articleNumber;
+		Item item;
+		try {
+			articleNumber = Integer.parseInt(arguments[0]);
+		} catch (Exception e) {
+			System.out.println("Failed to parse index from arguments.");
+			return;
+		} try { 
+
+		if(library.searchItem(articleNumber).getStatus().equals("(In stock)")) {
+			System.out.println("Error: item with id " + arguments[0] + " is already available.");	
+			return;
+		} else {
+			item = library.searchItem(articleNumber);
+			item.setStatus("(In stock)");
+			System.out.println("Successfully returned " + item.getTitle() + ".");
+		}
+	} catch (NullPointerException e) {
+		System.out.println("Error: No item with id " + arguments[0] + " registered.");
+		return;}
+	   
 	}
 	
 	private void listCommand() {
@@ -138,6 +194,8 @@ public class LibraryManager {
     			return Command.INFO;
     		case "checkin":
     			return Command.CHECKIN;
+    		case "checkout":
+    			return Command.CHECKOUT;
     		case "quit":
     		case "exit":
     			return Command.QUIT;
@@ -165,7 +223,7 @@ public class LibraryManager {
 			printer.printRecord(22222, "The Thing", "89.00", "130", "8.2", "(In stock)");
 			printer.close();
 			} catch (IOException e) {}
-		LibraryManager manager = new LibraryManager("/Users/rasmuscederfeldt/eclipse-workspace/Library/Library.csv");
+		LibraryManager manager = new LibraryManager("Library.csv");
 		
 		manager.start();
 	}
