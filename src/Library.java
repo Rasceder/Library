@@ -118,7 +118,7 @@ public class Library implements ILibrary, Comparable<Object>{
 			PrintWriter printWriter = new PrintWriter(itemsPath);
 			printWriter.println(Item.getCsvHeaderString());
 			for (Item item : items) {
-				String csvRecord = item.itemCsvRecord();
+				String csvRecord = item.CsvRecord();
 				printWriter.println(csvRecord);
 			}
 			printWriter.close();
@@ -131,11 +131,11 @@ public class Library implements ILibrary, Comparable<Object>{
 		Scanner scanner = new Scanner(System.in);
 		
 		String articleNumber = "0"; // Movies article number must start with a number 2. All article number are five digits long.
-		float cost;
+		int cost;
 		String status;
 		String title;
 		int runtime;
-		float rating;
+		String rating;
 		int pages;
 		String publisher;
 		String userInput;
@@ -158,7 +158,7 @@ public class Library implements ILibrary, Comparable<Object>{
 		System.out.print("\n> ");
 		userInput = scanner.nextLine();
 		try {
-		cost = Float.parseFloat(userInput);
+		cost = Integer.parseInt(userInput);
 		} catch (Exception e) {
 			System.out.println("Failed to parse value attributes from arguments.");
 			return;
@@ -184,7 +184,7 @@ public class Library implements ILibrary, Comparable<Object>{
     		System.out.print("\n> ");
 	        userInput = scanner.nextLine();
 	        try {
-	        rating = Float.parseFloat(userInput);
+	        rating = userInput;
 			} catch (Exception e) {
 				System.out.println("Failed to parse attributes from arguments.");
 				return;
