@@ -2,9 +2,10 @@
 public interface ILibrary {
 	void addItem(Item item);
 	void removeItem(int index);
-	String searchItem(int articleNumber);
+	Item searchItem(int articleNumber);
 	Object getItems();
 	int compareTo(Object o);
 	void registerItem();
+	void changeItemStatus(int articleNumber, String name, String phone);
 
 }
