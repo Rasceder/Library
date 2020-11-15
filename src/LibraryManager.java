@@ -1,12 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 
 public class LibraryManager {
 	
@@ -217,13 +213,6 @@ public class LibraryManager {
     }
 	
 	public static void main(String[] args) {
-		//try {
-				//FileWriter writer = new FileWriter("Library.csv");
-				//CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
-				//PrintWriter printer = new PrintWriter("Library.csv");
-				//printer.append("article number", "title", "cost", "pages / runtime", "publisher / rating", "status");
-			//printer.close();
-			//} catch (IOException e) {}
 	    File log = new File("Library3.csv");
 	    	    try{
 	    	    if(log.exists()==false){
